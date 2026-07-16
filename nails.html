@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoopy Scoop - Nails Collection</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fcfcfc;
+            color: #111;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+      /* 🛒 Products Layout: Har line mein sirf 2 cards ke liye */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Yeh har line mein 2 barabar cards banaye ga */
+            gap: 30px; /* Cards ke darmayan ka gap (isey aap kam/zyada kar sakti hain) */
+            max-width: 800px; /* Grid ko center aur perfect size mein rakhne ke liye */
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Card ka size thoda adjust karne ke liye (agar zaroorat ho) */
+        .product-card {
+            width: 100%; /* Card automatically apne column ke mutabik bada ho jayega */
+            box-sizing: border-box;
+        }
+
+        /* Pink Shadow Image Wrapper */
+        .img-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            margin-bottom: 15px;
+        }
+
+        /* Black border box containing image */
+        .img-box {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #111;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            z-index: 2;
+        }
+
+        .img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* The Pink Shadow Layer behind the image */
+        .pink-shadow {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 100%;
+            height: 100%;
+            background-color: #ff63b1; /* Bright Pink */
+            border: 2px solid #111;
+            border-radius: 12px;
+            z-index: 1;
+        }
+
+        .product-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 8px 0 4px 0;
+            color: #111;
+            text-decoration: none;
+        }
+        
+        .product-title a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .product-price {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        /* Variant Dropdown Style */
+        .variant-select {
+            width: 80%;
+            max-width: 140px;
+            padding: 8px 12px;
+            border: 2px solid #111;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            margin-bottom: 15px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Y2K Pop Add To Cart Button */
+        .btn-wrapper {
+            position: relative;
+            width: 80%;
+            max-width: 160px;
+            height: 45px;
+        }
+
+        .add-cart-btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffbde2; /* Light Pastel Pink */
+            border: 2px solid #111;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+            cursor: pointer;
+            z-index: 2;
+            transition: transform 0.1s ease;
+        }
+
+        .btn-shadow {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 100%;
+            height: 100%;
+            background-color: #111;
+            z-index: 1;
+        }
+
+        /* Click animation for button */
+        .add-cart-btn:active {
+            transform: translate(3px, 3px);
+        }
+
+        /* Laptop Layout */
+        @media (min-width: 769px) {
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr); /* Laptop par 4 products ek line mein */
+                gap: 40px;
+            }
+            .product-title { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">← Back to Collections</a>
+
+        <div class="products-grid">
+            
+           <!-- Product 1: Cute Charms -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click par data bhejne ke liye link badla -->
+            <a href="product-detail.html?img=nails.jpeg&title=Cute%20Charms%20%F0%9F%8C%B7%E2%9C%A8&price=380.00">
+                <img src="nails.jpeg" alt="Cute Charms">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click par bhi data bhejne ke liye link badla -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=nails.jpeg&title=Cute%20Charms%20%F0%9F%8C%B7%E2%9C%A8&price=380.00">Cute Charms 🌷✨</a>
+    </h3>
+    
+    <div class="product-price">RS.380.00</div>
+    
+    <!-- Variant Dropdown -->
+    <select class="variant-select">
+        <option>Yellow</option>
+        <option>Pink</option>
+        <option>Purple</option>
+    </select>
+
+    <!-- Cute Button with Shadow -->
+    <div class="btn-wrapper">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+           <!-- Product 2: Weekly Planner -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (Weekly Planner ki price aur details ke sath) -->
+            <a href="product-detail.html?img=weekly-planner.jpeg&title=Weekly%20Planner%20%F0%9F%92%96%20To%20Do%20List&price=450.00">
+                <img src="weekly-planner.jpeg" alt="Weekly Planner"> <!-- 📸 Image wapas add kar di -->
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Same dynamic data ke sath) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=weekly-planner.jpeg&title=Weekly%20Planner%20%F0%9F%92%96%20To%20Do%20List&price=450.00">Weekly Planner 💗 To Do List</a>
+    </h3>
+    
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;"> <!-- Dropdown nahi hai isliye thoda margin diya -->
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+            <!-- Product 3: Weekly Planner 2 -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (nails3.jpeg aur dynamic details ke sath) -->
+            <a href="product-detail.html?img=nails3.jpeg&title=Weekly%20Planner%20%F0%9F%93%8B%20To%20Do%20List&price=450.00">
+                <img src="nails3.jpeg" alt="Weekly Planner">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Same dynamic data) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=nails3.jpeg&title=Weekly%20Planner%20%F0%9F%93%8B%20To%20Do%20List&price=450.00">Weekly Planner 📋 To Do List</a>
+    </h3>
+    
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+           <!-- Product 4: Weekly Planner 3 -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (nails4.jpeg aur dynamic details ke sath) -->
+            <a href="product-detail.html?img=nails4.jpeg&title=Weekly%20Planner%20%F0%9F%8C%BC%20To%20Do%20List&price=450.00">
+                <img src="nails4.jpeg" alt="Weekly Planner">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Same dynamic data) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=nails4.jpeg&title=Weekly%20Planner%20%F0%9F%8C%BC%20To%20Do%20List&price=450.00">Weekly Planner 🌼 To Do List</a>
+    </h3>
+    
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+             <!-- Product 3: Weekly Planner 2 -->
+            <div class="product-card">
+                <div class="img-container">
+                    <div class="img-box">
+                        <a href="product-detail.html"><img src="nails5.jpeg" alt="Weekly Planner"></a>
+                    </div>
+                    <div class="pink-shadow"></div>
+                </div>
+                <h3 class="product-title"><a href="product-detail.html">Weekly Planner 📋 To Do List</a></h3>
+                <div class="product-price">RS.450.00</div>
+                
+                <div class="btn-wrapper" style="margin-top: 53px;">
+                    <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+                    <div class="btn-shadow"></div>
+                </div>
+            </div>
+
+
+            <!-- Product 6: Weekly Planner 5 -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (nails6.jpeg aur dynamic details ke sath) -->
+            <a href="product-detail.html?img=nails6.jpeg&title=Weekly%20Planner%20%F0%9F%9%8B%20To%20Do%20List&price=450.00">
+                <img src="nails6.jpeg" alt="Weekly Planner">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Same dynamic data) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=nails6.jpeg&title=Weekly%20Planner%20%F0%9F%9%8B%20To%20Do%20List&price=450.00">Weekly Planner 📋 To Do List</a>
+    </h3>
+    
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+
+
+           <!-- Product 7: Weekly Planner 6 -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (nails7.jpeg aur dynamic details ke sath) -->
+            <a href="product-detail.html?img=nails7.jpeg&title=Weekly%20Planner%20%F0%9F%93%8B%20To%20Do%20List&price=450.00">
+                <img src="nails7.jpeg" alt="Weekly Planner">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Same dynamic data) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=nails7.jpeg&title=Weekly%20Planner%20%F0%9F%93%8B%20To%20Do%20List&price=450.00">Weekly Planner 📋 To Do List</a>
+    </h3>
+    
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+
+           <!-- Product 8: Weekly Planner 7 -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (nails8.jpeg aur dynamic details ke sath) -->
+            <a href="product-detail.html?img=nails8.jpeg&title=Weekly%20Planner%20%F0%9F%93%8B%20To%20Do%20List&price=450.00">
+                <img src="nails8.jpeg" alt="Weekly Planner">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Same dynamic data) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=nails8.jpeg&title=Weekly%20Planner%20%F0%9F%93%8B%20To%20Do%20List&price=450.00">Weekly Planner 📋 To Do List</a>
+    </h3>
+    
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+
+           <!-- Product 9: Weekly Planner 8 -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (nails9.jpeg aur dynamic details ke sath) -->
+            <a href="product-detail.html?img=nails9.jpeg&title=Weekly%20Planner%20%F0%9F%93%8B%20To%20Do%20List&price=450.00">
+                <img src="nails9.jpeg" alt="Weekly Planner">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Same dynamic data) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=nails9.jpeg&title=Weekly%20Planner%20%F0%9F%93%8B%20To%20Do%20List&price=450.00">Weekly Planner 📋 To Do List</a>
+    </h3>
+    
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+
+           <!-- Product 10: Weekly Planner 9 -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (nails10.jpeg aur dynamic details ke sath) -->
+            <a href="product-detail.html?img=nails10.jpeg&title=Weekly%20Planner%20%F0%9F%93%8B%20To%20Do%20List&price=450.00">
+                <img src="nails10.jpeg" alt="Weekly Planner">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Same dynamic data) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=nails10.jpeg&title=Weekly%20Planner%20%F0%9F%93%8B%20To%20Do%20List&price=450.00">Weekly Planner 📋 To Do List</a>
+    </h3>
+    
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+
+
+            <!-- Product 11: Weekly Planner 10 -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (nails11.jpeg aur dynamic details ke sath) -->
+            <a href="product-detail.html?img=nails11.jpeg&title=Weekly%20Planner%20%F0%9F%93%8B%20To%20Do%20List&price=450.00">
+                <img src="nails11.jpeg" alt="Weekly Planner">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Same dynamic data) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=nails11.jpeg&title=Weekly%20Planner%20%F0%9F%93%8B%20To%20Do%20List&price=450.00">Weekly Planner 📋 To Do List</a>
+    </h3>
+    
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+        </div>
+    </div>
+
+</body>
+</html>

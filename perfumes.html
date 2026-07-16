@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoopy Scoop - Perfumes Collection</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fcfcfc;
+            color: #111;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+      /* 🛒 Products Layout: Har line mein sirf 2 cards ke liye */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Yeh har line mein 2 barabar cards banaye ga */
+            gap: 30px; /* Cards ke darmayan ka gap (isey aap kam/zyada kar sakti hain) */
+            max-width: 800px; /* Grid ko center aur perfect size mein rakhne ke liye */
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Card ka size thoda adjust karne ke liye (agar zaroorat ho) */
+        .product-card {
+            width: 100%; /* Card automatically apne column ke mutabik bada ho jayega */
+            box-sizing: border-box;
+        }
+
+        /* Pink Shadow Image Wrapper */
+        .img-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            margin-bottom: 15px;
+        }
+
+        /* Black border box containing image */
+        .img-box {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #111;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            z-index: 2;
+        }
+
+        .img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* The Pink Shadow Layer behind the image */
+        .pink-shadow {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 100%;
+            height: 100%;
+            background-color: #ff63b1; /* Bright Pink */
+            border: 2px solid #111;
+            border-radius: 12px;
+            z-index: 1;
+        }
+
+        .product-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 8px 0 4px 0;
+            color: #111;
+            text-decoration: none;
+        }
+        
+        .product-title a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .product-price {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        /* Variant Dropdown Style */
+        .variant-select {
+            width: 80%;
+            max-width: 140px;
+            padding: 8px 12px;
+            border: 2px solid #111;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            margin-bottom: 15px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Y2K Pop Add To Cart Button */
+        .btn-wrapper {
+            position: relative;
+            width: 80%;
+            max-width: 160px;
+            height: 45px;
+        }
+
+        .add-cart-btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffbde2; /* Light Pastel Pink */
+            border: 2px solid #111;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+            cursor: pointer;
+            z-index: 2;
+            transition: transform 0.1s ease;
+        }
+
+        .btn-shadow {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 100%;
+            height: 100%;
+            background-color: #111;
+            z-index: 1;
+        }
+
+        /* Click animation for button */
+        .add-cart-btn:active {
+            transform: translate(3px, 3px);
+        }
+
+        /* Laptop Layout */
+        @media (min-width: 769px) {
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr); /* Laptop par 4 products ek line mein */
+                gap: 40px;
+            }
+            .product-title { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <section id="contact">
+    <form action="https://formspree.io/f/xlgqganq" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+</section>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">← Back to Collections</a>
+
+        <div class="products-grid">
+            
+          <!-- Product 1: Floral Bloom Perfume -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (perfume.jpeg aur dynamic data ke sath) -->
+            <a href="product-detail.html?img=perfume.jpeg&title=Floral%20Bloom%20Perfume%20%F0%9F%8C%B8%E2%9C%A8&price=380.00">
+                <img src="perfume.jpeg" alt="Floral Bloom Perfume">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Badal kar dynamic title kar diya) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=perfume.jpeg&title=Floral%20Bloom%20Perfume%20%F0%9F%8C%B8%E2%9C%A8&price=380.00">Floral Bloom Perfume 🌸✨</a>
+    </h3>
+    <div class="product-price">RS.380.00</div>
+    
+    <!-- Perfume Variants Dropdown -->
+    <select class="variant-select">
+        <option>Rose</option>
+        <option>Jasmine</option>
+        <option>Lavender</option>
+    </select>
+
+    <!-- Cute Button with Shadow -->
+    <div class="btn-wrapper">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+           <!-- Product 2: Sweet Vanilla Dream -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (perfume1.jpeg aur dynamic data ke sath) -->
+            <a href="product-detail.html?img=perfume1.jpeg&title=Sweet%20Vanilla%20Dream%20%F0%9F%92%96%E2%9C%A8&price=450.00">
+                <img src="perfume1.jpeg" alt="Sweet Vanilla Dream">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Badal kar dynamic title kar diya) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=perfume1.jpeg&title=Sweet%20Vanilla%20Dream%20%F0%9F%92%96%E2%9C%A8&price=450.00">Sweet Vanilla Dream 💗✨</a>
+    </h3>
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;"> <!-- Dropdown nahi hai isliye thoda margin diya -->
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+           <!-- Product 3: Ocean Mist Perfume -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (perfume2.jpeg aur dynamic data ke sath) -->
+            <a href="product-detail.html?img=perfume2.jpeg&title=Ocean%20Mist%20Perfume%20%F0%9F%93%8B%E2%9C%A8&price=450.00">
+                <img src="perfume2.jpeg" alt="Ocean Mist Perfume">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Badal kar dynamic title kar diya) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=perfume2.jpeg&title=Ocean%20Mist%20Perfume%20%F0%9F%93%8B%E2%9C%A8&price=450.00">Ocean Mist Perfume 📋✨</a>
+    </h3>
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+           <!-- Product 4: Citrus Sunshine Perfume -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (perfume4.jpeg aur dynamic data ke sath) -->
+            <a href="product-detail.html?img=perfume4.jpeg&title=Citrus%20Sunshine%20Perfume%20%F0%9F%8C%BC%E2%9C%A8&price=450.00">
+                <img src="perfume4.jpeg" alt="Citrus Sunshine Perfume">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Badal kar dynamic title kar diya) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=perfume4.jpeg&title=Citrus%20Sunshine%20Perfume%20%F0%9F%8C%BC%E2%9C%A8&price=450.00">Citrus Sunshine Perfume 🌼✨</a>
+    </h3>
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+            <!-- Product 5: Ocean Breeze Perfume -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (perfume5.jpeg aur dynamic data ke sath) -->
+            <a href="product-detail.html?img=perfume5.jpeg&title=Ocean%20Breeze%20Perfume%20%F0%9F%8C%8A%E2%9C%A8&price=450.00">
+                <img src="perfume5.jpeg" alt="Ocean Breeze Perfume">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Badal kar dynamic title kar diya) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=perfume5.jpeg&title=Ocean%20Breeze%20Perfume%20%F0%9F%8C%8A%E2%9C%A8&price=450.00">Ocean Breeze Perfume 🌊✨</a>
+    </h3>
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+
+           <!-- Product 6: Mystic Amber Perfume -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (perfume6.jpeg aur dynamic data ke sath) -->
+            <a href="product-detail.html?img=perfume6.jpeg&title=Mystic%20Amber%20Perfume%20%F0%9F%8D%82%E2%9C%A8&price=450.00">
+                <img src="perfume6.jpeg" alt="Mystic Amber Perfume">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Badal kar dynamic title kar diya) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=perfume6.jpeg&title=Mystic%20Amber%20Perfume%20%F0%9F%8D%82%E2%9C%A8&price=450.00">Mystic Amber Perfume 🍂✨</a>
+    </h3>
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+
+
+            <!-- Product 7: Velvet Peony Perfume -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (perfume7.jpeg aur dynamic data ke sath) -->
+            <a href="product-detail.html?img=perfume7.jpeg&title=Velvet%20Peony%20Perfume%20%F0%9F%8C%B8%E2%9C%A8&price=450.00">
+                <img src="perfume7.jpeg" alt="Velvet Peony Perfume">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Badal kar dynamic title kar diya) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=perfume7.jpeg&title=Velvet%20Peony%20Perfume%20%F0%9F%8C%B8%E2%9C%A8&price=450.00">Velvet Peony Perfume 🌸✨</a>
+    </h3>
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+<!-- Product 8: Glossy Berry Tint -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (makeup8.jpeg aur dynamic data ke sath) -->
+            <a href="product-detail.html?img=makeup8.jpeg&title=Glossy%20Berry%20Tint%20%F0%9F%92%84%E2%9C%A8&price=450.00">
+                <img src="makeup8.jpeg" alt="Glossy Berry Tint">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Badal kar dynamic title kar diya) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=makeup8.jpeg&title=Glossy%20Berry%20Tint%20%F0%9F%92%84%E2%9C%A8&price=450.00">Glossy Berry Tint 💄✨</a>
+    </h3>
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+
+             <!-- Product 9: Velvet Matte Lipstick -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (makeup9.jpeg aur dynamic data ke sath) -->
+            <a href="product-detail.html?img=makeup9.jpeg&title=Velvet%20Matte%20Lipstick%20%F0%9F%92%84%E2%9C%A8&price=450.00">
+                <img src="makeup9.jpeg" alt="Velvet Matte Lipstick">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Badal kar dynamic title kar diya) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=makeup9.jpeg&title=Velvet%20Matte%20Lipstick%20%F0%9F%92%84%E2%9C%A8&price=450.00">Velvet Matte Lipstick 💄✨</a>
+    </h3>
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+
+            <!-- Product 10: Shimmer Glow Highlighter -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (makeup10.jpeg aur dynamic data ke sath) -->
+            <a href="product-detail.html?img=makeup10.jpeg&title=Shimmer%20Glow%20Highlighter%20%E2%9C%A8%F0%9F%92%84&price=450.00">
+                <img src="makeup10.jpeg" alt="Shimmer Glow Highlighter">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Badal kar dynamic title kar diya) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=makeup10.jpeg&title=Shimmer%20Glow%20Highlighter%20%E2%9C%A8%F0%9F%92%84&price=450.00">Shimmer Glow Highlighter ✨💄</a>
+    </h3>
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+
+
+            <!-- Product 11: Crystal Gloss Lip Balm -->
+<div class="product-card">
+    <div class="img-container">
+        <div class="img-box">
+            <!-- 🌟 Image click link (makeup11.jpeg aur dynamic data ke sath) -->
+            <a href="product-detail.html?img=makeup11.jpeg&title=Crystal%20Gloss%20Lip%20Balm%20%F0%9F%92%8E%E2%9C%A8&price=450.00">
+                <img src="makeup11.jpeg" alt="Crystal Gloss Lip Balm">
+            </a>
+        </div>
+        <div class="pink-shadow"></div>
+    </div>
+    
+    <!-- 🌟 Title click link (Badal kar dynamic title kar diya) -->
+    <h3 class="product-title">
+        <a href="product-detail.html?img=makeup11.jpeg&title=Crystal%20Gloss%20Lip%20Balm%20%F0%9F%92%8E%E2%9C%A8&price=450.00">Crystal Gloss Lip Balm 💎✨</a>
+    </h3>
+    <div class="product-price">RS.450.00</div>
+    
+    <div class="btn-wrapper" style="margin-top: 53px;">
+        <button class="add-cart-btn" onclick="alert('Added to cart!')">Add To Cart</button>
+        <div class="btn-shadow"></div>
+    </div>
+</div>
+
+        </div>
+    </div>
+
+</body>
+</html>

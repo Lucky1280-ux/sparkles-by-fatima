@@ -1,0 +1,2474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoopy Scoop - Shop by Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Paytone+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fcfcfc;
+            color: #111;
+        }
+
+        /* Container ko chota kiya taaki 2 categories cards center mein simat kar chote lagein */
+        .container {
+            max-width: 500px; 
+            margin: 0 auto;
+            padding: 40px 20px 20px 20px;
+        }
+
+        h2.section-title {
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        /* Ek line mein sirf 2 cards rahenge aur size compact rahega */
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 20px; 
+        }
+
+        /* Individual Card Styling */
+        .collection-card {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .image-wrapper {
+            width: 100%;
+            aspect-ratio: 1 / 1; 
+            overflow: hidden;
+            background-color: #f0f0f0;
+            border-radius: 6px; 
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .collection-card:hover .image-wrapper img {
+            transform: scale(1.03);
+        }
+
+        .collection-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            color: #111;
+        }
+
+        /* 🎀 ANIMATED PINK MARQUEE LINE STYLING 🎀 */
+        .marquee-container {
+            width: 100%;
+            background-color: #ff63b1; 
+            border-top: 2px solid #111;  
+            border-bottom: 2px solid #111;
+            padding: 12px 0;
+            overflow: hidden;
+            margin-top: 50px; 
+            display: flex;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 800;
+            color: #111; 
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            animation: marquee 12s linear infinite; 
+            padding-left: 100%;
+        }
+
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* ✨ NEW ARRIVALS HEADING STYLING ✨ */
+        .new-arrivals-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #111;
+            margin-top: 40px; 
+            margin-bottom: 20px;
+        }
+
+        .new-arrivals-title span {
+            font-size: 22px; 
+            vertical-align: middle;
+            margin: 0 8px;
+        }
+
+        /* 🛍️ AUTOMATICALLY MOVING CARDS SLIDER 🛍️ */
+        .slider-wrapper {
+            width: 100%;
+            overflow: hidden; 
+            padding: 20px 0 40px 0;
+        }
+
+        .slider-container {
+            display: flex;
+            gap: 30px; 
+            width: max-content; 
+            animation: moveCards 25s linear infinite; 
+        }
+
+        .slider-container:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes moveCards {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(calc(-230px * 7), 0, 0); } 
+        }
+
+        .product-card {
+            width: 200px; 
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 🎴 IMAGE CONTAINER WITH EXACT OFFSET SHADOW 🎴 */
+        .product-image-container {
+            position: relative;
+            width: calc(100% - 10px); 
+            aspect-ratio: 1 / 1;
+            margin-bottom: 25px;
+        }
+
+        .product-image-shadow {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 100%;
+            height: 100%;
+            background-color: #ff63b1; 
+            border: 2px solid #111;
+            border-radius: 12px;
+            z-index: 1;
+        }
+
+        .product-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 2px solid #111; 
+            border-radius: 12px;
+            background-color: #ffffff; 
+            z-index: 2; 
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 5px 10px;
+        }
+
+        .product-name {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #111;
+            margin: 5px 0;
+            line-height: 1.3;
+            min-height: 34px; 
+        }
+
+        .price-container {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .current-price {
+            font-weight: 800;
+            color: #111;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 12px;
+        }
+
+        /* 💗 ADD TO CART BUTTON WITH PERFECT SHADOW 💗 */
+        .add-to-cart-btn {
+            position: relative;
+            width: calc(100% - 6px);
+            height: 38px;
+            margin-top: auto;
+            cursor: pointer;
+        }
+
+        .btn-shadow {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 100%;
+            height: 100%;
+            background-color: #d1a8ff; 
+            border: 2px solid #111;
+            border-radius: 6px;
+            z-index: 1;
+        }
+
+        .btn-main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ff63b1; 
+            border: 2px solid #111;
+            border-radius: 6px;
+            color: #111;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        /* 🛍️ BUY NOW MODAL/POPUP STYLING 🛍️ */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: none; /* Pehle hidden rahega */
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .modal-card {
+            background-color: #fff;
+            border: 3px solid #111;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 440px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 8px 8px 0px #111; /* Strong black offset shadow */
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: 800;
+            cursor: pointer;
+            color: #111;
+            transition: transform 0.2s;
+        }
+
+        .close-modal:hover {
+            transform: scale(1.1);
+        }
+
+        /* Modal Product details */
+        .modal-product-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* 🎴 Modal Image with offset shadow */
+        .modal-image-container {
+            position: relative;
+            width: 160px;
+            aspect-ratio: 1/1;
+            margin-bottom: 20px;
+        }
+
+        .modal-image-shadow {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 100%;
+            height: 100%;
+            background-color: #ff63b1;
+            border: 2px solid #111;
+            border-radius: 12px;
+            z-index: 1;
+        }
+
+        .modal-product-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 2px solid #111;
+            border-radius: 12px;
+            background-color: #fff;
+            z-index: 2;
+        }
+
+        .modal-product-name {
+            font-size: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #111;
+            margin-bottom: 8px;
+            padding: 0 10px;
+        }
+
+        .modal-product-price {
+            font-size: 16px;
+            font-weight: 800;
+            color: #111;
+            margin-bottom: 20px;
+        }
+
+        /* 🔢 Quantity Selector with Shadow 🔢 */
+        .quantity-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .qty-btn {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+        }
+
+        .qty-shadow {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 100%;
+            height: 100%;
+            background-color: #d1a8ff;
+            border: 2px solid #111;
+            border-radius: 6px;
+            z-index: 1;
+        }
+
+        .qty-main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border: 2px solid #111;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            z-index: 2;
+        }
+
+        .qty-btn:active .qty-main {
+            top: 3px;
+            left: 3px;
+        }
+
+        .qty-value {
+            font-size: 18px;
+            font-weight: 800;
+            min-width: 25px;
+            text-align: center;
+        }
+
+        /* 💳 Button Layout 💳 */
+        .modal-actions {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        /* Dynamic Add to Cart Button */
+        .cart-action-btn {
+            position: relative;
+            width: calc(100% - 6px);
+            height: 44px;
+            cursor: pointer;
+        }
+
+        .cart-btn-shadow {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 100%;
+            height: 100%;
+            background-color: #d1a8ff;
+            border: 2px solid #111;
+            border-radius: 6px;
+            z-index: 1;
+        }
+
+        .cart-btn-main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border: 2px solid #111;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .cart-action-btn:active .cart-btn-main {
+            top: 6px;
+            left: 6px;
+        }
+
+        /* Solid Buy now button */
+        .buy-action-btn {
+            width: 100%;
+            height: 44px;
+            background-color: #ff63b1;
+            border: 2px solid #111;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #111;
+        }
+
+        /* 📋 Checkout Form details styling 📋 */
+        .checkout-form {
+            border-top: 2px dashed #ccc;
+            padding-top: 20px;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-title {
+            font-size: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #111;
+            margin-bottom: 5px;
+        }
+
+        .form-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 12px;
+            border: 2px solid #111;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            background-color: #fafafa;
+        }
+
+        .form-input:focus {
+            background-color: #fff;
+            border-color: #ff63b1;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+                padding: 20px 15px;
+            }
+            .product-card {
+                width: 170px; 
+            }
+            @keyframes moveCards {
+                0% { transform: translate3d(0, 0, 0); }
+                100% { transform: translate3d(calc(-200px * 7), 0, 0); }
+            }
+        }
+
+
+        /* 🤍 CUTE STICKERS MARQUEE STYLING 🤍 */
+        .stickers-marquee-container {
+            width: 100%;
+            background-color: #ffffff; /* Pure White Background jaisa aapne kaha */
+            padding: 25px 0;
+            overflow: hidden;
+            display: flex;
+            white-space: nowrap;
+            margin-top: 10px;
+            border-bottom: 2px solid #ffe3ec; /* Neeche wave ki taraf soft margin */
+        }
+
+        .stickers-marquee-content {
+            display: inline-flex;
+            align-items: center;
+            gap: 60px; /* Stickers ke darmiyan space */
+            animation: moveStickers 15s linear infinite;
+        }
+
+        .sticker-img {
+            height: 65px; /* Stickers ka height size standard rakha hai */
+            object-fit: contain;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        /* Stickers Chalne ki Animation */
+        @keyframes moveStickers {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); } /* Smooth infinite transition */
+        }
+
+
+        /* 💖 VIBE SECTION CSS 💖 */
+        .vibe-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+            overflow: hidden;
+            background-color: #fcfcfc;
+        }
+
+        .vibe-title {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Shop Now Retro Button */
+        .vibe-shop-btn {
+            position: relative;
+            width: 140px;
+            height: 42px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            z-index: 10;
+        }
+
+        .vibe-btn-shadow {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 100%;
+            height: 100%;
+            background-color: #d1a8ff;
+            border: 2px solid #111;
+        }
+
+        .vibe-btn-main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ff63b1;
+            border: 2px solid #111;
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 💖 HEART CONTAINER & REAL SVG BACKGROUND 💖 */
+        .heart-container {
+            position: relative;
+            width: 100%;
+            max-width: 550px;
+            height: 380px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 0 auto;
+        }
+
+        /* SVG Heart Backing Styling */
+        .bg-heart-svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 110%; /* Yeh un cards se thoda bada hoga bilkul background ki tarah */
+            height: 110%;
+            fill: #ff63b1; /* Bright pink color original design jaisa */
+            z-index: 1;
+            filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.05));
+        }
+
+        /* Vibe Cards */
+        .vibe-card {
+            position: relative;
+            width: 45%;
+            aspect-ratio: 0.8 / 1;
+            z-index: 2;
+        }
+
+        .card-left {
+            transform: rotate(-7deg); /* Left card tilted left */
+        }
+
+        .card-right {
+            transform: rotate(6deg); /* Right card tilted right */
+        }
+
+        .vibe-card-shadow {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 100%;
+            height: 100%;
+            background-color: #d1a8ff;
+            border: 2px solid #111;
+            border-radius: 12px;
+        }
+
+        .vibe-card-main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border: 2px solid #111;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .vibe-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 🟣 THREE STATS ICONS STYLING 🟣 */
+        .stats-container {
+            width: 100%;
+            max-width: 480px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 50px;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        .stat-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .stat-icon-circle {
+            width: 75px;
+            height: 75px;
+            background-color: #e2caff; /* Soft Purple Circle */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .stat-icon-circle svg {
+            width: 35px;
+            height: 35px;
+            fill: #111; /* Black vector outline icons */
+        }
+
+        .stat-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: #222;
+            line-height: 1.4;
+            max-width: 110px;
+        }
+
+        /* 💕 CUSTOMER REVIEWS SECTION STYLING 💕 */
+        .reviews-section {
+            width: 100%;
+            padding: 50px 0;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .reviews-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .reviews-avatar-container {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+       .reviews-avatar {
+            width: 90px;
+            height: 90px;
+            display: block;
+        }
+
+        .reviews-title {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #111;
+        }
+
+        /* Continuous Loop Marquee container */
+        .reviews-marquee-container {
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            padding: 20px 0;
+        }
+
+        .reviews-marquee-content {
+            display: inline-flex;
+            gap: 40px; /* Space between each review card */
+            animation: moveReviews 22s linear infinite;
+        }
+
+        /* Review Card styling (Double-offset box) */
+        .review-card {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            flex-shrink: 0;
+        }
+
+        .review-card-shadow {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 100%;
+            height: 100%;
+            background-color: #ff63b1; /* Pink retro offset shadow */
+            border: 2px solid #111;
+            border-radius: 4px;
+        }
+
+        .review-card-main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            border: 2px solid #111;
+            border-radius: 4px;
+            padding: 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .review-stars {
+            color: #111;
+            font-size: 15px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .review-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.5;
+            margin: 0;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .review-author {
+            font-size: 11px;
+            font-weight: 800;
+            color: #111;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 8px 0 0 0;
+            text-align: center;
+        }
+
+        /* Hover animation: Jab customer mouse le jaye toh movement rukh jaye */
+        .reviews-marquee-container:hover .reviews-marquee-content {
+            animation-play-state: paused;
+        }
+
+        /* Infinite horizontal scroll animation */
+        @keyframes moveReviews {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        /* 🎀 FAQ SECTION STYLING 🎀 */
+        .faq-section {
+            width: 100%;
+            max-width: 600px; /* Phones aur computers dono par center align rehne ke liye */
+            margin: 40px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .faq-title {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            color: #111;
+        }
+
+        .faq-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 35px;
+            font-weight: 500;
+        }
+
+        .faq-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px; /* Cards ke darmayan perfect distance */
+        }
+
+        /* Retro double card setup */
+        .faq-item {
+            position: relative;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .faq-shadow {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 100%;
+            height: 100%;
+            background-color: #ff63b1; /* Offset pink shadow */
+            border: 2px solid #111;
+            border-radius: 4px;
+            z-index: 1;
+        }
+
+        .faq-main {
+            position: relative;
+            background-color: #ffffff;
+            border: 2px solid #111;
+            border-radius: 4px;
+            z-index: 2;
+            padding: 15px 20px;
+            box-sizing: border-box;
+        }
+
+        .faq-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .faq-question-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Sharp outline heart */
+        .faq-heart-icon {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: #111;
+            stroke-width: 2px;
+            flex-shrink: 0;
+        }
+
+        .faq-question {
+            font-size: 14px;
+            font-weight: 800;
+            margin: 0;
+            color: #111;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Rotating Arrow Icon */
+        .faq-arrow {
+            font-size: 11px;
+            color: #111;
+            transition: transform 0.3s ease;
+        }
+
+        /* Slide open transition for answer */
+        .faq-answer-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding-top: 0;
+        }
+
+        .faq-answer {
+            font-size: 13px;
+            color: #222;
+            line-height: 1.6;
+            margin: 0;
+            font-weight: 500;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+            padding-top: 12px;
+        }
+
+        /* Jab accordion ACTIVE (Khula hua) ho */
+        .faq-item.active .faq-arrow {
+            transform: rotate(180deg); /* Arrow up ho jayega */
+        }
+
+        .faq-item.active .faq-answer-container {
+            max-height: 200px; /* Smooth open height limit */
+            padding-top: 10px;
+        }
+        /* 🎀 FAQ SECTION STYLING 🎀 */
+.faq-section {
+    width: 100%;
+    max-width: 600px;
+    margin: 40px auto;
+    /* Baaqi saari CSS yahan paste kar dein... */
+}
+
+/* 🎀 RETRO PINK FOOTER STYLING 🎀 */
+        .main-footer {
+            width: 100%;
+            background-color: #ff8ec4; /* Perfect vibrant pink theme from screenshot */
+            display: flex;
+            flex-direction: column;
+            margin-top: 50px;
+            font-family: inherit;
+            border-top: 3px solid #111;
+        }
+
+        /* Banner Graphic Area styling */
+        .footer-banner {
+            width: 100%;
+            padding: 60px 20px;
+            background-color: #ff8ec4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px dashed #ffffff;
+        }
+
+        .footer-logo-container {
+            position: relative;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Stylized "Sparkles by Fatima" Text Logo */
+        .footer-brand-title {
+            font-family: 'Arial Black', 'Impact', sans-serif;
+            font-size: 42px;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0;
+            line-height: 0.9;
+            text-transform: capitalize;
+            letter-spacing: -1px;
+            text-shadow: 
+                -3px -3px 0 #d9267c,  
+                 3px -3px 0 #d9267c,
+                -3px  3px 0 #d9267c,
+                 3px  3px 0 #d9267c,
+                 4px  6px 0px rgba(0,0,0,0.15);
+        }
+
+        .brand-sub {
+            font-size: 32px;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Floating Y2K elements around logo */
+        .decor-element {
+            position: absolute;
+            font-size: 24px;
+            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1));
+        }
+        .decor-element.bow { top: -20px; left: 10px; font-size: 28px; }
+        .decor-element.rainbow { top: -15px; right: -20px; font-size: 28px; }
+        .decor-element.berry-1 { left: -60px; top: 40px; transform: rotate(-15px); }
+        .decor-element.berry-2 { right: -65px; top: -10px; transform: rotate(20px); }
+        .decor-element.flower-1 { left: -70px; top: -20px; }
+        .decor-element.flower-2 { right: -50px; top: 70px; }
+        .decor-element.sparkle-1 { bottom: -20px; left: -10px; color: #fffb1f; }
+        .decor-element.sparkle-2 { top: 60px; right: 20px; color: #fffb1f; }
+
+        /* Footer Main Content Layout */
+        .footer-content {
+            padding: 40px 25px 20px 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Navigation Links block */
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: #111111;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            width: fit-content;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Newsletter text title */
+        .newsletter-title {
+            font-size: 15px;
+            font-weight: 900;
+            color: #111111;
+            margin: 0 0 15px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        /* Input text email box style */
+        .newsletter-input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #111111;
+            background-color: #ffb1da; /* Soft pink background for email field */
+            color: #111111;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 2px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .newsletter-input::placeholder {
+            color: #555555;
+            font-weight: 500;
+        }
+
+        /* Button Double Border offset trick */
+        .sub-btn-wrapper {
+            position: relative;
+            width: 100%;
+            height: 48px;
+        }
+
+        .sub-btn-shadow {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            border: 2px solid #111111;
+            border-radius: 2px;
+            z-index: 1;
+        }
+
+        .newsletter-btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #b58eff; /* Aesthetic retro lavender/purple button color */
+            border: 2px solid #111111;
+            color: #111111;
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            z-index: 2;
+            border-radius: 2px;
+            transition: transform 0.1s ease;
+        }
+
+        .newsletter-btn:active {
+            transform: translate(2px, 2px);
+        }
+
+        /* Copyright section area */
+        .footer-bottom {
+            margin-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding-top: 20px;
+        }
+
+        .copyright-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: #111111;
+            margin: 0;
+        }
+        /* 🎀 RETRO MODAL STYLING 🎀 */
+        .retro-modal {
+            display: none; /* Shuru mein hidden rahega */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            height: auto;
+            z-index: 1000;
+        }
+
+        .retro-modal.show {
+            display: block;
+        }
+
+        /* Dark background overlay jab popup khule */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            display: none;
+        }
+
+        .modal-overlay.show {
+            display: block;
+        }
+
+        .modal-shadow {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 100%;
+            height: 100%;
+            background-color: #ff63b1; /* Pink retro shadow */
+            border: 2px solid #111;
+            border-radius: 4px;
+            z-index: 1;
+        }
+
+        .modal-main {
+            position: relative;
+            background-color: #ffffff;
+            border: 2px solid #111;
+            border-radius: 4px;
+            z-index: 2;
+            padding: 25px 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 900;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #111;
+            text-transform: uppercase;
+            border-bottom: 2px dashed #111;
+            padding-bottom: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #111;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: #ff63b1;
+        }
+
+        .modal-body-content p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #222;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+
+        .contact-info-list {
+            background-color: #fff0f6;
+            border: 1px dashed #ff63b1;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .contact-info-list p {
+            margin: 6px 0;
+        }
+
+        /* Hot selling heading ko center align karne ke liye */
+.reviews-section ~ h2, 
+h2:has(+ .product-grid), /* automatic target setup */
+h2 {
+    text-align: center !important;
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+
+/* 💖 RESPONSIVE HERO BANNER 💖 */
+        .hero-banner-container {
+            width: 100%;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            line-height: 0; /* Extra gap khatam karne ke liye */
+            border-bottom: 3px solid #111; /* Signature bold black line */
+        }
+
+        .hero-banner-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Pure banner ko clickable banane ke liye overlay (agar link krna ho) */
+        .banner-click-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            cursor: pointer;
+        }
+
+        /* Mobile phones par thoda sa scale adjust karne ke liye */
+        @media (max-width: 768px) {
+            .hero-banner-img {
+                min-height: 180px; /* Choti screens par image bohot choti na lage */
+                object-fit: cover;
+            }
+        }
+
+        /* 🌸 Stickers ki basic settings */
+.bg-sticker {
+    position: fixed; /* Is se sticker ek hi jagah fixed rahega */
+    width: 80px;     /* Aap size chota bada kar sakti hain */
+    height: auto;
+    z-index: -1;     /* Yeh sabse zaroori hai! Is se sticker cards ke PECHE chala jayega */
+    opacity: 0.8;    /* Sticker ko thoda soft/light karne ke liye */
+    pointer-events: none; /* Takay click karne par koi masla na ho */
+}
+
+/* 👈 Left side wala sticker kahan show ho */
+.sticker-left {
+    left: 20px;
+    top: 40%;        /* Screen ke beech mein lane ke liye */
+}
+
+/* 👉 Right side wala sticker kahan show ho */
+.sticker-right {
+    right: 50px;
+    top: 25%;        /* Isko thoda upar rakhne ke liye */
+}
+
+/* 📱 Mobile par stickers ko chupa dene ke liye taaki screen kharab na ho */
+@media (max-width: 768px) {
+    .bg-sticker {
+        display: none;
+    }
+}
+
+
+/* 🤍 Navbar Main Styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff; /* Shandaar white background */
+    padding: 15px 30px;
+    border-bottom: 2px solid #111111; /* Aapki theme se match karti hui black line */
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Taaki scroll karne par navbar sab ke upar rahe */
+}
+
+/* ☰ Left: 3 Lines Menu Icon */
+.nav-menu-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.nav-menu-btn span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: #111111; /* Lines ka color */
+    border-radius: 2px;
+}
+
+/* 🏷️ Center: Brand Name */
+/* 🏷️ Center: Brand Name (Banner Font Style) */
+.nav-brand {
+    font-family: 'Fredoka', 'Paytone One', sans-serif; /* Cute bubble fonts */
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff63b1; /* Aapke banner wala pyara sa pink color */
+    text-transform: capitalize; /* Taaki pehla letter bada ho */
+    letter-spacing: 0.5px;
+    
+    /* ✨ Yeh magic shadow text ko banner jaisa bold border aur 3D look degi */
+    text-shadow: 
+        -2px -2px 0 #fff,  
+         2px -2px 0 #fff,
+        -2px  2px 0 #fff,
+         2px  2px 0 #fff,
+         3px  3px 0px #111111; /* Black pop shadow */
+         
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+/* Hover karne par halka sa pop effect */
+.nav-brand:hover {
+    transform: scale(1.05);
+}
+
+/* 🔍 Right: Search Box Container */
+.nav-search-container {
+    display: flex;
+    align-items: center;
+    border: 2px solid #111111;
+    border-radius: 20px; /* Cute rounded edges */
+    padding: 4px 10px;
+    background-color: #ffffff;
+}
+
+.nav-search-input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    width: 120px; /* Chota aur clean size */
+    background: transparent;
+}
+
+.nav-search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+}
+
+/* 📱 Mobile Responsive (Taaki choti screens par kharab na ho) */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 12px 15px;
+    }
+    .nav-brand {
+        font-size: 16px;
+    }
+    .nav-search-input {
+        width: 80px; /* Mobile par mazeed chota search bar */
+    }
+}
+    </style>
+</head>
+<body>
+   
+
+
+<!-- Right side ka sticker -->
+<img src="bow.jpeg" class="bg-sticker sticker-right" alt="cute sticker">
+
+<!-- 🌸 Navigation Bar 🌸 -->
+<nav class="navbar">
+    <!-- ☰ Left Side: 3 Lines Menu -->
+    <div class="nav-menu-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- 🏷️ Center: Brand Name -->
+    <div class="nav-brand">
+        SPARKLES BY FATIMA
+    </div>
+
+    <!-- 🔍 Right Side: Search Box -->
+    <div class="nav-search-container">
+        <input type="text" placeholder="Search..." class="nav-search-input">
+        <button class="nav-search-btn">🔍</button>
+    </div>
+</nav>
+    <!-- 💖 HERO BANNER SECTION 💖 -->
+<div class="hero-banner-container">
+    <!-- .jpg ko badal kar .png kar diya hai -->
+    <img src="image.webp" alt="Sparkles by Fatima Banner" class="hero-banner-img">
+    
+    <a href="#products-section" class="banner-click-overlay"></a>
+</div>
+
+<!-- 📌 Emojis ke sath naya Marquee Banner (Koi image file nahi chahiye!) -->
+<marquee behavior="scroll" direction="left" scrollamount="5" style="background: #fff; padding: 10px 0; border-bottom: 2px solid #111;">
+    <span style="font-size: 50px; margin: 0 20px;">🎀</span>
+    <span style="font-size: 50px; margin: 0 20px;">💄</span>
+    <span style="font-size: 50px; margin: 0 20px;">✨</span>
+    <span style="font-size: 50px; margin: 0 20px;">🍓</span>
+    <span style="font-size: 50px; margin: 0 20px;">🌈</span>
+    <span style="font-size: 50px; margin: 0 20px;">🍒</span>
+    <span style="font-size: 50px; margin: 0 20px;">🎀</span>
+    <span style="font-size: 50px; margin: 0 20px;">💄</span>
+    <span style="font-size: 50px; margin: 0 20px;">✨</span>
+    <span style="font-size: 50px; margin: 0 20px;">🍓</span>
+    <span style="font-size: 50px; margin: 0 20px;">🌈</span>
+    <span style="font-size: 50px; margin: 0 20px;">🍒</span>
+</marquee>
+
+    <div class="container">
+        <h2 class="section-title">Shop By Collection</h2>
+
+        <div class="collection-grid">
+            <!-- Card 1: Nails -->
+            <a href="nails.html" class="collection-card">
+                <div class="image-wrapper">
+                    <img src="nails1.jpeg" alt="Nails">
+                </div>
+                <div class="collection-name">Nails</div>
+            </a>
+
+            <!-- Card 2: Makeup -->
+            <a href="makeup.html" class="collection-card">
+                <div class="image-wrapper">
+                    <img src="makeup.jpeg" alt="Makeup">
+                </div>
+                <div class="collection-name">Makeup</div>
+            </a>
+
+            <!-- Card 3: Jhumkay / churiyan -->
+            <a href="jhumkay.html" class="collection-card">
+                <div class="image-wrapper">
+                    <img src="jhumky.jpeg" alt="Jhumkay / churiyan">
+                </div>
+                <div class="collection-name">Jhumkay / churiyan</div>
+            </a>
+
+            <!-- Card 4: Jewellery -->
+            <a href="jewellery.html" class="collection-card">
+                <div class="image-wrapper">
+                    <img src="bracelet11.jpeg" alt="Jewellery">
+                </div>
+                <div class="collection-name">Jewellery</div>
+            </a>
+
+ 
+
+            <!-- Card 6: Perfumes -->
+            <a href="perfumes.html" class="collection-card">
+                <div class="image-wrapper">
+                    <img src="perfume.jpeg" alt="Perfumes">
+                </div>
+                <div class="collection-name">Perfumes</div>
+            </a>
+        </div>
+    </div>
+
+
+
+    <!-- 🌟 CHALTI HUI PINK POPUP LINE 🌟 -->
+    <div class="marquee-container">
+        <div class="marquee-content">
+            PICK YOUR NEW OBSESSION 💗 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            PICK YOUR NEW OBSESSION 💗 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            PICK YOUR NEW OBSESSION 💗 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            PICK YOUR NEW OBSESSION 💗
+        </div>
+    </div>
+
+    <!-- 🌸 NEW ARRIVALS CENTER HEADING 🌸 -->
+    <h2 class="new-arrivals-title"><span>🌸</span> New arrivals <span>🌸</span></h2>
+
+    <!-- 🛍️ NEW ARRIVALS CARDS AUTOMATIC SLIDER 🛍️ -->
+    <div class="slider-wrapper">
+        <div class="slider-container">
+
+            <!-- Card 1 -->
+            <div class="product-card" onclick="openProductModal('CONFESSION EAU DE PARFUM - 30ML', 950.00, 'nails8.jpg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="nails8.jpeg" alt="Product 1">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">CONFESSION EAU DE PARFUM - 30ML</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.950.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="product-card" onclick="openProductModal('MOCALLURE TINTED LIPGLOSS 💕', 350.00, 'makeup2.jpg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="makeup2.jpeg" alt="Product 2">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">MOCALLURE TINTED LIPGLOSS 💕</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.350.00</span>
+                        <span class="old-price">RS.480.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="product-card" onclick="openProductModal('L-O-V-E ❤️ INITIALS SET', 550.00, 'flowerclip.jpeg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="flowerclip.jpeg" alt="Product 3">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">L-O-V-E ❤️ INITIALS SET</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.550.00</span>
+                        <span class="old-price">RS.650.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="product-card" onclick="openProductModal('RHODE PEPTIDE LIP DUPES 🎀', 699.00, 'combs.jpeg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="combs.jpeg" alt="Product 4">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">RHODE PEPTIDE LIP DUPES 🎀</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.699.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="product-card" onclick="openProductModal('CUTE BUNNY LIP OIL 🐰', 299.00, 'bags.jpeg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="bags.jpeg" alt="Product 5">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">CUTE BUNNY LIP OIL 🐰</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.299.00</span>
+                        <span class="old-price">RS.399.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="product-card" onclick="openProductModal('KAWAII BLUSH PALETTE 🌸', 750.00, 'lip gloss.jpeg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="lip gloss.jpeg" alt="Product 6">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">KAWAII BLUSH PALETTE 🌸</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.750.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 7 -->
+            <div class="product-card" onclick="openProductModal('GLOWING SKIN SERUM ✨', 850.00, 'makeup3.jpeg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="makeup3.jpeg" alt="Product 7">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">GLOWING SKIN SERUM ✨</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.850.00</span>
+                        <span class="old-price">RS.1200.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- 💖 OUR VIBE & STATS SECTION 💖 -->
+    <div class="vibe-section">
+        <h2 class="vibe-title">OUR VIBE !!</h2>
+        
+        <!-- Shop Now Button -->
+        <div class="vibe-shop-btn">
+            <div class="vibe-btn-shadow"></div>
+            <div class="vibe-btn-main">SHOP NOW</div>
+        </div>
+
+        <!-- Big Heart Background & Tilted Cards Container -->
+        <div class="heart-container">
+            
+            <!-- ❤️ ACTUAL BACKGROUND PINK HEART ❤️ -->
+            <svg class="bg-heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+
+            <!-- Left Tilted Card -->
+            <div class="vibe-card card-left">
+                <div class="vibe-card-shadow"></div>
+                <div class="vibe-card-main">
+                    <img src="success.jpeg" alt="Our Vibe 1" class="vibe-img">
+                </div>
+            </div>
+
+            <!-- Right Tilted Card -->
+            <div class="vibe-card card-right">
+                <div class="vibe-card-shadow"></div>
+                <div class="vibe-card-main">
+                    <img src="self.jpeg" alt="Our Vibe 2" class="vibe-img">
+                </div>
+            </div>
+        </div>
+
+            
+
+        <!-- 🟣 THREE STATS ICONS SECTION 🟣 -->
+        <div class="stats-container">
+            <!-- Icon 1: Heart/Reviews -->
+            <div class="stat-box">
+                <div class="stat-icon-circle">
+                    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </div>
+                <div class="stat-text">5000+ customer reviews</div>
+            </div>
+
+            <!-- Icon 2: Followers -->
+            <div class="stat-box">
+                <div class="stat-icon-circle">
+                    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 1.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                </div>
+                <div class="stat-text">115k + followers on Instagram</div>
+            </div>
+
+            <!-- Icon 3: Delivery Truck -->
+            <div class="stat-box">
+                <div class="stat-icon-circle">
+                    <svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-5.5H16.5V9.5h3V13zm-1 5.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                </div>
+                <div class="stat-text">8000+ order shipped</div>
+            </div>
+        </div>
+    </div>
+
+ <!-- 🌸 Our Hot Selling Items 🌸 -->
+    <h2 class="our-hot selling"><span>🌸</span> Our hot selling items<span>🌸</span></h2>
+
+    <div class="slider-wrapper">
+        <div class="slider-container">
+
+            <!-- Card 1 -->
+            <div class="product-card" onclick="openProductModal('CONFESSION EAU DE PARFUM - 30ML', 950.00, 'stainless.jpeg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="stainless.jpeg" alt="Product 1">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">CONFESSION EAU DE PARFUM - 30ML</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.950.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="product-card" onclick="openProductModal('MOCALLURE TINTED LIPGLOSS 💕', 350.00, 'rings.jpeg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="rings.jpeg" alt="Product 2">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">MOCALLURE TINTED LIPGLOSS 💕</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.350.00</span>
+                        <span class="old-price">RS.480.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="product-card" onclick="openProductModal('L-O-V-E ❤️ INITIALS SET', 550.00, 'tint.jpeg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="tint.jpeg" alt="Product 3">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">L-O-V-E ❤️ INITIALS SET</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.550.00</span>
+                        <span class="old-price">RS.650.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="product-card" onclick="openProductModal('RHODE PEPTIDE LIP DUPES 🎀', 699.00, 'cute.jpeg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="cute.jpeg" alt="Product 4">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">RHODE PEPTIDE LIP DUPES 🎀</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.699.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="product-card" onclick="openProductModal('CUTE BUNNY LIP OIL 🐰', 299.00, 'makeup2.jpeg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="makeup2.jpeg" alt="Product 5">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">CUTE BUNNY LIP OIL 🐰</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.299.00</span>
+                        <span class="old-price">RS.399.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="product-card" onclick="openProductModal('KAWAII BLUSH PALETTE 🌸', 750.00, 'perfume.jpeg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="perfume.jpeg" alt="Product 6">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">KAWAII BLUSH PALETTE 🌸</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.750.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 7 -->
+            <div class="product-card" onclick="openProductModal('GLOWING SKIN SERUM ✨', 850.00, 'jhumkay.jpeg')">
+                <div class="product-image-container">
+                    <div class="product-image-shadow"></div>
+                    <img class="product-image" src="jhumky.jpeg" alt="Product 7">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">GLOWING SKIN SERUM ✨</div>
+                    <div class="price-container">
+                        <span class="current-price">RS.850.00</span>
+                        <span class="old-price">RS.1200.00</span>
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <div class="btn-shadow"></div>
+                        <div class="btn-main">ADD TO CART</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+    
+   <!-- 💕 OUR HAPPY CUSTOMERS SECTION 💕 -->
+    <div class="reviews-section">
+        
+        <!-- Header with Cute Bubble Gum Girl (No internet needed!) -->
+        <div class="reviews-header">
+            <div class="reviews-avatar-container">
+                <!-- 🎀 PURE SVG CUTE BUBBLEGUM GIRL AVATAR 🎀 -->
+                <svg class="reviews-avatar" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Hair Back -->
+                    <circle cx="50" cy="50" r="35" fill="#2d2d2d"/>
+                    <!-- Hair buns -->
+                    <circle cx="20" cy="35" r="12" fill="#2d2d2d"/>
+                    <circle cx="80" cy="35" r="12" fill="#2d2d2d"/>
+                    <!-- Face -->
+                    <circle cx="50" cy="53" r="26" fill="#ffd5c6"/>
+                    <!-- Hair bangs -->
+                    <path d="M24 53 C24 35, 76 35, 76 53 C76 40, 24 40, 24 53 Z" fill="#2d2d2d"/>
+                    <!-- Cheeks (Pink blush) -->
+                    <circle cx="34" cy="58" r="5" fill="#ff9ebb" opacity="0.7"/>
+                    <circle cx="66" cy="58" r="5" fill="#ff9ebb" opacity="0.7"/>
+                    <!-- Cute Wink Eyes -->
+                    <path d="M32 48 Q37 44 42 48" stroke="#2d2d2d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M58 48 Q63 44 68 48" stroke="#2d2d2d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <!-- Cute Bow Left Bun -->
+                    <path d="M18 23 L26 27 L22 31 Z" fill="#ff63b1" stroke="#111" stroke-width="1.5"/>
+                    <path d="M14 27 L22 31 L18 35 Z" fill="#ff63b1" stroke="#111" stroke-width="1.5"/>
+                    <circle cx="18" cy="29" r="3" fill="#ff9ebb" stroke="#111" stroke-width="1.5"/>
+                    <!-- Cute Bow Right Bun -->
+                    <path d="M82 23 L74 27 L78 31 Z" fill="#ff63b1" stroke="#111" stroke-width="1.5"/>
+                    <path d="M86 27 L78 31 L82 35 Z" fill="#ff63b1" stroke="#111" stroke-width="1.5"/>
+                    <circle cx="82" cy="29" r="3" fill="#ff9ebb" stroke="#111" stroke-width="1.5"/>
+                    <!-- Bubblegum (Pink bubble) -->
+                    <circle cx="50" cy="61" r="10" fill="#ff85c2" stroke="#fff" stroke-width="1.5"/>
+                </svg>
+            </div>
+            <h2 class="reviews-title">OUR HAPPY CUSTOMERS 💕</h2>
+        </div>
+
+        <!-- Continuous Smooth Moving Reviews Track -->
+        <div class="reviews-marquee-container">
+            <div class="reviews-marquee-content">
+                
+                <!-- Review 1 -->
+                <div class="review-card">
+                    <div class="review-card-shadow"></div>
+                    <div class="review-card-main">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">Yeh mera 3rd order hai and quality har dafa amazing hoti hai highly recommend to all girls</p>
+                        <h4 class="review-author">ALIZA</h4>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="review-card">
+                    <div class="review-card-shadow"></div>
+                    <div class="review-card-main">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">First time order kiya tha and I'm already in love 😭💖 everything looks so premium and girlyyyy ✨</p>
+                        <h4 class="review-author">AROOJ</h4>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="review-card">
+                    <div class="review-card-shadow"></div>
+                    <div class="review-card-main">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">Inki customer service bhi bohat sweet hai 🥰 har query ka reply mil gaya quickly — amazing experience overall</p>
+                        <h4 class="review-author">HAIQA</h4>
+                    </div>
+                </div>
+
+                <!-- Review 4 -->
+                <div class="review-card">
+                    <div class="review-card-shadow"></div>
+                    <div class="review-card-main">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">Obsessed with my order 😭💖 packaging itni cute thi literally felt like opening a gift 🎁 quality bhi 10/10 — will def order again!!</p>
+                        <h4 class="review-author">AIMA</h4>
+                    </div>
+                </div>
+
+                <!-- Duplicate Set for Smooth Loop -->
+                <div class="review-card">
+                    <div class="review-card-shadow"></div>
+                    <div class="review-card-main">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">Yeh mera 3rd order hai and quality har dafa amazing hoti hai highly recommend to all girls</p>
+                        <h4 class="review-author">ALIZA</h4>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-card-shadow"></div>
+                    <div class="review-card-main">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">First time order kiya tha and I'm already in love 😭💖 everything looks so premium and girlyyyy ✨</p>
+                        <h4 class="review-author">AROOJ</h4>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-card-shadow"></div>
+                    <div class="review-card-main">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">Inki customer service bhi bohat sweet hai 🥰 har query ka reply mil gaya quickly — amazing experience overall</p>
+                        <h4 class="review-author">HAIQA</h4>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-card-shadow"></div>
+                    <div class="review-card-main">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">Obsessed with my order 😭💖 packaging itni cute thi literally felt like opening a gift 🎁 quality bhi 10/10 — will def order again!!</p>
+                        <h4 class="review-author">AIMA</h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+        
+<!-- 🎀 LITTLE HELP CORNER (FAQ SECTION) 🎀 -->
+<div class="faq-section">
+    <h2 class="faq-title">LITTLE HELP CORNER 🎀</h2>
+    <p class="faq-subtitle">Find the most frequently asked questions below.</p>
+    <div class="faq-container">
+        <!-- Question blocks yahan aayenge... -->
+    </div>
+</div>
+               
+                  
+
+               
+
+              
+             
+
+  <!-- 📌 Stickers ke sath Marquee Banner -->
+<marquee behavior="scroll" direction="left" scrollamount="5" style="background: #fff; padding: 10px 0; border-bottom: 2px solid #111;">
+    <!-- Bow Sticker -->
+    <img src="bow.jpeg" alt="Bow" style="height: 90px; margin: 0 20px; vertical-align: middle;">
+    
+    <!-- Lipstick (Yeh chal raha tha) -->
+    <img src="lipstick.jpeg" alt="Lipstick" style="height: 90px; margin: 0 20px; vertical-align: middle;">
+    
+    <!-- Sparkles Sticker -->
+    <img src="sprinkle1.jpeg" alt="Sparkles" style="height: 90px; margin: 0 20px; vertical-align: middle;">
+    
+    <!-- Strawberry (Yeh chal raha tha) -->
+    <img src="horse.jpeg" alt="Strawberry" style="height: 90px; margin: 0 20px; vertical-align: middle;">
+    
+    <!-- Rainbow (Yeh chal raha tha) -->
+    <img src="rainbow1.jpeg" alt="Rainbow" style="height: 90px; margin: 0 20px; vertical-align: middle;">
+    
+    <!-- Cherry (Yeh chal raha tha) -->
+    <img src="cherry1.jpeg" alt="Cherry" style="height: 90px; margin: 0 20px; vertical-align: middle;">
+    <img src="camera.jpeg" alt="Cherry" style="height: 90px; margin: 0 20px; vertical-align: middle;">
+
+    <img src="butterfly.jpeg" alt="Cherry" style="height: 90px; margin: 0 20px; vertical-align: middle;">
+    <img src="cycle.jpeg" alt="Cherry" style="height: 90px; margin: 0 20px; vertical-align: middle;">
+    <img src="flowers.jpeg" alt="Cherry" style="height: 90px; margin: 0 20px; vertical-align: middle;">
+    <img src="mine.jpeg" alt="Cherry" style="height: 90px; margin: 0 20px; vertical-align: middle;">
+    <img src="vibes.jpeg" alt="Cherry" style="height: 90px; margin: 0 20px; vertical-align: middle;">
+</marquee>
+
+    <!-- 🎀 LITTLE HELP CORNER (FAQ SECTION) 🎀 -->
+    <div class="faq-section">
+        
+        <h2 class="faq-title">LITTLE HELP CORNER 🎀</h2>
+        <p class="faq-subtitle">Find the most frequently asked questions below.</p>
+
+        <div class="faq-container">
+
+            <!-- Question 1 -->
+            <div class="faq-item active"> <!-- 'active' class lagayi hai taaki pehla automatically khula rahe screenshot ki tarah -->
+                <div class="faq-shadow"></div>
+                <div class="faq-main">
+                    <div class="faq-header-bar" onclick="toggleFaq(this)">
+                        <div class="faq-question-left">
+                            <!-- Cute Outline Heart SVG -->
+                            <svg class="faq-heart-icon" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            <h3 class="faq-question">WHAT ARE THE DELIVERY CHARGES?</h3>
+                        </div>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer-container">
+                        <p class="faq-answer">Our delivery charges are Rs. 299 all over Pakistan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="faq-item">
+                <div class="faq-shadow"></div>
+                <div class="faq-main">
+                    <div class="faq-header-bar" onclick="toggleFaq(this)">
+                        <div class="faq-question-left">
+                            <svg class="faq-heart-icon" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            <h3 class="faq-question">IS THE PAYMENT ADVANCE?</h3>
+                        </div>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer-container">
+                        <p class="faq-answer">
+                            Yes, we require full advance payment.<br><br>
+                            If you prefer Cash on Delivery (COD), you will need to pay 50% in advance and the remaining amount on delivery. Please note that COD parcels include 4% government taxes, which is why we recommend full advance payment.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="faq-item">
+                <div class="faq-shadow"></div>
+                <div class="faq-main">
+                    <div class="faq-header-bar" onclick="toggleFaq(this)">
+                        <div class="faq-question-left">
+                            <svg class="faq-heart-icon" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            <h3 class="faq-question">WHEN WILL I GET MY ORDER?</h3>
+                        </div>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer-container">
+                        <p class="faq-answer">
+                            Orders are usually delivered within 3 to 7 working days. We also share a tracking ID so you can track your parcel easily. However, due to unforeseen circumstances in the country, delivery may sometimes be delayed. We kindly ask for your patience in such cases, as delays are beyond our control.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="faq-item">
+                <div class="faq-shadow"></div>
+                <div class="faq-main">
+                    <div class="faq-header-bar" onclick="toggleFaq(this)">
+                        <div class="faq-question-left">
+                            <svg class="faq-heart-icon" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            <h3 class="faq-question">WHAT IS THE RETURN AND EXCHANGE POLICY?</h3>
+                        </div>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer-container">
+                        <p class="faq-answer">
+                            We offer exchanges within 3 days of delivery if the product you received is damaged or incorrect. Please make sure to record an unboxing video as proof so our team can instantly process your request!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+   <!-- 🛍️ POPUP CHECKOUT/BUY NOW OVERLAY 🛍️ -->
+    <div id="productModal" class="modal-overlay">
+        <div class="modal-card">
+            <!-- Close Button -->
+            <span class="close-modal" onclick="closeProductModal()">&times;</span>
+
+            <!-- Product Data Layout -->
+            <div class="modal-product-layout">
+                <!-- Exact Double-Card Offset Look -->
+                <div class="modal-image-container">
+                    <div class="modal-image-shadow"></div>
+                    <img id="modalImg" class="modal-product-image" src="" alt="Selected Product">
+                </div>
+
+                <!-- Product Text -->
+                <div id="modalTitle" class="modal-product-name">Product Name</div>
+                <div id="modalPriceText" class="modal-product-price">Rs.00.00</div>
+
+                <!-- Quantity Control -->
+                <div class="quantity-wrapper">
+                    <div class="qty-btn" onclick="changeQuantity(-1)">
+                        <div class="qty-shadow"></div>
+                        <div class="qty-main">-</div>
+                    </div>
+                    <div id="qtyValue" class="qty-value">1</div>
+                    <div class="qty-btn" onclick="changeQuantity(1)">
+                        <div class="qty-shadow"></div>
+                        <div class="qty-main">+</div>
+                    </div>
+                </div>
+
+                <!-- Form Details for Checkout -->
+                <div class="checkout-form" style="width: 100%; text-align: left;">
+                    <div class="form-title">⚡ Delivery Details ⚡</div>
+                    
+                    <input type="text" id="custName" class="form-input" placeholder="Your Full Name" required>
+                    <input type="tel" id="custPhone" class="form-input" placeholder="Phone Number" required>
+                    <input type="email" id="custEmail" class="form-input" placeholder="Email Address (Gmail)" required>
+                    <input type="text" id="custCity" class="form-input" placeholder="City" required>
+                    <input type="text" id="custAddress" class="form-input" placeholder="Complete Home Address" required>
+
+                    <!-- 💵 CASH ON DELIVERY TAG 💵 -->
+                    <div style="background-color: #ffe3ec; border: 2px solid #111; border-radius: 6px; padding: 10px; margin-top: 5px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                        <span>💵</span> Payment Method: Cash on Delivery (COD)
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="modal-actions" style="margin-top: 20px;">
+                    <!-- Add to Cart with Shadow -->
+                    <div class="cart-action-btn" onclick="alert('Added to cart!')">
+                        <div class="cart-btn-shadow"></div>
+                        <div id="modalCartBtnText" class="cart-btn-main">ADD TO CART - RS.0.00</div>
+                    </div>
+                    
+                    <!-- Complete Your Order Button (Solid Pink) -->
+                    <button class="buy-action-btn" id="completeOrderBtn" onclick="submitOrder()">COMPLETE YOUR ORDER</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 🎀 RETRO PINK FOOTER SECTION 🎀 -->
+    <footer class="main-footer">
+        
+        <!-- Top Cute Animated Banner Area -->
+        <div class="footer-banner">
+            <!-- Sparkles by Fatii Title Graphics with Y2K Elements -->
+            <div class="footer-logo-container">
+                <span class="decor-element bow">🎀</span>
+                <span class="decor-element rainbow">🌈</span>
+                <span class="decor-element berry-1">🍓</span>
+                <span class="decor-element berry-2">🍓</span>
+                <span class="decor-element flower-1">🌸</span>
+                <span class="decor-element flower-2">🌼</span>
+                <span class="decor-element sparkle-1">✨</span>
+                <span class="decor-element sparkle-2">✨</span>
+                
+                <h1 class="footer-brand-title">Sparkles<br><span class="brand-sub">by Fatima</span></h1>
+            </div>
+        </div>
+
+        <!-- Footer Links Container -->
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Shop All</a>
+                <a href="#">About Us</a>
+                <a href="#">Contact Us</a>
+            </div>
+
+            <!-- Newsletter Signup Block -->
+            <div class="footer-newsletter">
+                <h3 class="newsletter-title">SIGN UP TO OUR NEWSLETTER</h3>
+                
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed successfully! 💕');">
+                    <!-- Pink Styled Input Email Box -->
+                    <input type="email" placeholder="email@example.com" class="newsletter-input" required>
+                    
+                    <!-- Purple Double Border Subscribe Button -->
+                    <div class="sub-btn-wrapper">
+                        <div class="sub-btn-shadow"></div>
+                        <button type="submit" class="newsletter-btn">SUBSCRIBE</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Bottom Copyright bar -->
+            <div class="footer-bottom">
+                <p class="copyright-text">&copy; 2026, Sparkles by Fatima.</p>
+            </div>
+        </div>
+
+        <!-- 🌸 ABOUT US MODAL (POPUP) 🌸 -->
+    <div id="aboutModal" class="retro-modal">
+        <div class="modal-shadow"></div>
+        <div class="modal-main">
+            <span class="modal-close" onclick="closeModal('aboutModal')">&times;</span>
+            <h2 class="modal-title">ABOUT US 🎀</h2>
+            <div class="modal-body-content">
+                <p>Welcome to <strong>Sparkles by Fatima</strong>! 💖</p>
+                <p>Hum banate hain aapke liye sabse cute, aesthetic aur premium quality accessories jo aapki girly vibe ko complete karti hain. Humara maqsad har larki ko special aur sparkling feel karwana hai! ✨</p>
+                <p>Har order ko bohat pyaar aur sweet packaging ke sath pack kiya jata hai taaki jab aap apna parcel kholein, toh aapke face par ek bari si smile ho! 🎁🌸</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 📞 CONTACT US MODAL (POPUP) 📞 -->
+    <div id="contactModal" class="retro-modal">
+        <div class="modal-shadow"></div>
+        <div class="modal-main">
+            <span class="modal-close" onclick="closeModal('contactModal')">&times;</span>
+            <h2 class="modal-title">CONTACT US 💌</h2>
+            <div class="modal-body-content">
+                <p>We would love to hear from you! Agar aapka koi bhi sawal hai ya order ke mutalik query hai, toh humse zaroor rabta karein:</p>
+                
+                <div class="contact-info-list">
+                    <p><strong>📧 Email:</strong> sparklesbyfatima@gmail.com</p>
+                    <p><strong>📸 Instagram:</strong> <a href="https://instagram.com" target="_blank" style="color: #ff63b1; font-weight: bold; text-decoration: none;">@sparklesbyfatima</a></p>
+                    <p><strong>💬 WhatsApp:</strong> +92 300 1234567</p>
+                </div>
+                
+                <p style="font-size: 11px; margin-top: 15px; color: #666;">💌 <em>Humari team 24 ghante ke andar reply karne ki poori koshish karti hai.</em></p>
+            </div>
+        </div>
+    </div>
+    </footer>
+    
+
+    <!-- ⚡ UPDATED JAVASCRIPT WITH ALL DETAILS ⚡ -->
+    <script>
+        let currentProductPrice = 0;
+        let currentQty = 1;
+        let currentProductName = "";
+        
+        // 🚚 Delivery Charges
+        const DELIVERY_CHARGES = 250.00; 
+
+        function openProductModal(name, price, imgSource) {
+            currentProductName = name;
+            currentProductPrice = price;
+            currentQty = 1; 
+
+            document.getElementById('modalTitle').innerText = name;
+            document.getElementById('modalPriceText').innerText = "Rs." + price.toFixed(2) + " (+ Rs." + DELIVERY_CHARGES + " Delivery)";
+            document.getElementById('modalImg').src = imgSource;
+            document.getElementById('qtyValue').innerText = currentQty;
+            
+            updateAddToCartBtnText();
+
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            let modal = document.getElementById('productModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        function changeQuantity(change) {
+            currentQty += change;
+            if (currentQty < 1) {
+                currentQty = 1; 
+            }
+            document.getElementById('qtyValue').innerText = currentQty;
+            updateAddToCartBtnText();
+        }
+
+        function updateAddToCartBtnText() {
+            let productTotal = currentProductPrice * currentQty;
+            let grandTotal = productTotal + DELIVERY_CHARGES; 
+            
+            document.getElementById('modalCartBtnText').innerText = "ADD TO CART - RS." + grandTotal.toFixed(2);
+        }
+
+        function submitOrder() {
+            let name = document.getElementById('custName').value.trim();
+            let phone = document.getElementById('custPhone').value.trim();
+            let email = document.getElementById('custEmail').value.trim();
+            let city = document.getElementById('custCity').value.trim();
+            let address = document.getElementById('custAddress').value.trim();
+
+            // Validation Check
+            if (name === "" || phone === "" || email === "" || city === "" || address === "") {
+                alert("Please fill all your details (Name, Phone, Gmail, City & Address) to complete your order! 💗");
+                return;
+            }
+
+            let productTotal = currentProductPrice * currentQty;
+            let grandTotal = productTotal + DELIVERY_CHARGES;
+
+            // Successful Order Message
+            alert(`🎉 Thank you, ${name}!\n\nYour Cash on Delivery (COD) order has been placed successfully!\n\n🛍️ Product: ${currentQty}x ${currentProductName}\n🏙️ City: ${city}\n📧 Email: ${email}\n\n💰 Grand Total (with Delivery): RS.${grandTotal.toFixed(2)}`);
+            
+            closeProductModal();
+            
+            // Inputs clear karna
+            document.getElementById('custName').value = "";
+            document.getElementById('custPhone').value = "";
+            document.getElementById('custEmail').value = "";
+            document.getElementById('custCity').value = "";
+            document.getElementById('custAddress').value = "";
+        }
+
+       // ... purana submitOrder function yahan khatam ho rha hai
+        document.getElementById('custAddress').value = "";
+    
+
+    // Dobara <script> likhne ki zaroorat nahi hai, bas function paste karein:
+    function toggleFaq(element) {
+        const faqItem = element.closest('.faq-item');
+        faqItem.classList.toggle('active');
+    }
+
+    
+        // FAQ toggle function
+        function toggleFaq(element) {
+            const faqItem = element.closest('.faq-item');
+            faqItem.classList.toggle('active');
+        }
+
+        // --- Modals logic ---
+        // Pehle body ke andar dynamic black overlay create karne ka function
+        if (!document.querySelector('.modal-overlay')) {
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            overlay.onclick = closeAllModals;
+            document.body.appendChild(overlay);
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+            document.querySelector('.modal-overlay').classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+            document.querySelector('.modal-overlay').classList.remove('show');
+        }
+
+        function closeAllModals() {
+            document.querySelectorAll('.retro-modal').forEach(m => m.classList.remove('show'));
+            document.querySelector('.modal-overlay').classList.remove('show');
+        }
+</script>
+</body>
+</html>
